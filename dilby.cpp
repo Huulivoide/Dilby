@@ -7,13 +7,19 @@
 
 #include <QGraphicsPixmapItem>
 #include <QMovie>
+#include <QIcon>
 
 #include "dilby.h"
 #include "ui_dilby.h"
 #include "downloader.h"
 
-Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings("", "Dilby")
+Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings("Huulivoide", "Dilby")
 {
+  // Set the icon theme if needed, before the gui is constructed,
+  // so that icons can be loaded
+  if (QIcon::themeName().isEmpty())
+    QIcon::setThemeName("TangoDilby");
+
   ui->setupUi(this);
 
   baseDir = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0) + "/";
@@ -21,21 +27,21 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   QDir bd;
   if (!bd.mkpath(baseDir))
   {
-      qDebug() << "Cannot create the data dir: " + baseDir;
-      qApp->quit();
+    qDebug() << "Cannot create the data dir: " + baseDir;
+    qApp->quit();
   }
 
   ui->comicView->setScene(&comic);
   comic.addItem(&pixmap);
 
-  QMovie *loader = new QMovie(":/res/icons/loader.gif", QByteArray(), ui->loaderLabel);
+  QMovie *loader = new QMovie(":/icons/loader.gif", QByteArray(), ui->loaderLabel);
   ui->loaderLabel->hide();
   ui->loaderLabel->setMovie(loader);
 
   ui->comicDate->setMaximumDate(QDate::currentDate());
   if (settings.contains("currentDate"))
     ui->comicDate->setDate(settings.value("currentDate").toDate());
-  else // If requested date is "bigger" than the newest one,  the site returns the newest one
+  else
     ui->comicDate->setDate(QDate::currentDate());
 
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(save()));
@@ -160,7 +166,7 @@ void Dilby::on_action_About_triggered()
 {
   QMessageBox::about(this, tr("About Dilby"),
                      tr("<h1>Dilby</h1>The source code can be found at:<br>%1<br> To contact send email to:<br>%2")
-                     .arg("<a href=\"http://foo.bar\">http://foo.bar</a>")
+                     .arg("<a href=\"https://github.com/Huulivoide/Dilby\">Github - Dilby</a>")
                      .arg("<a href=\"mailto:jesse.jaara@gmail.com\">jesse.jaara@gmail.com</a>"));
 }
 

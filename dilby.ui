@@ -32,8 +32,8 @@
    <string>Dilby</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Icons.qrc">
-    <normaloff>:/res/icons/logo_256.png</normaloff>:/res/icons/logo_256.png</iconset>
+   <iconset resource="res/Icons.qrc">
+    <normaloff>:/icons/logo_256.png</normaloff>:/icons/logo_256.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -208,7 +208,7 @@
      <x>0</x>
      <y>0</y>
      <width>1018</width>
-     <height>27</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -250,7 +250,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="Icons.qrc"/>
+  <include location="res/Icons.qrc"/>
  </resources>
  <connections/>
 </ui>

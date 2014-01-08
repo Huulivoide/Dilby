@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>res/icons/logo_256.png</file>
-        <file>res/icons/loader.gif</file>
-    </qresource>
-</RCC>

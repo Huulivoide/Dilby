@@ -21,4 +21,4 @@ HEADERS  += dilby.h \
 
 FORMS    += dilby.ui
 
-RESOURCES += Icons.qrc
+RESOURCES += res/Icons.qrc

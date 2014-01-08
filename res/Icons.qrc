@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/logo_256.png</file>
+        <file>icons/loader.gif</file>
+        <file>icons/TangoDilby/16x16/exit.png</file>
+        <file>icons/TangoDilby/16x16/next.png</file>
+        <file>icons/TangoDilby/16x16/previous.png</file>
+        <file>icons/TangoDilby/32x32/exit.png</file>
+        <file>icons/TangoDilby/32x32/next.png</file>
+        <file>icons/TangoDilby/32x32/previous.png</file>
+        <file>icons/TangoDilby/index.theme</file>
+    </qresource>
+</RCC>
