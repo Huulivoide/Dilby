@@ -82,9 +82,7 @@
          <string>&amp;Previous</string>
         </property>
         <property name="icon">
-         <iconset theme="previous">
-          <normaloff/>
-         </iconset>
+         <iconset theme="go-previous"/>
         </property>
        </widget>
       </item>
@@ -129,9 +127,7 @@
          <string>&amp;Next</string>
         </property>
         <property name="icon">
-         <iconset theme="next">
-          <normaloff/>
-         </iconset>
+         <iconset theme="go-next"/>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonIconOnly</enum>
@@ -208,7 +204,7 @@
      <x>0</x>
      <y>0</y>
      <width>1018</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -229,15 +225,16 @@
   </widget>
   <action name="action_Quit">
    <property name="icon">
-    <iconset theme="exit">
-     <normaloff/>
-    </iconset>
+    <iconset theme="application-exit"/>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
   </action>
   <action name="action_About">
+   <property name="icon">
+    <iconset theme="dialog-information"/>
+   </property>
    <property name="text">
     <string>&amp;About</string>
    </property>

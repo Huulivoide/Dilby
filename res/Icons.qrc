@@ -2,12 +2,14 @@
     <qresource prefix="/">
         <file>icons/logo_256.png</file>
         <file>icons/loader.gif</file>
-        <file>icons/TangoDilby/16x16/exit.png</file>
-        <file>icons/TangoDilby/16x16/next.png</file>
-        <file>icons/TangoDilby/16x16/previous.png</file>
-        <file>icons/TangoDilby/32x32/exit.png</file>
-        <file>icons/TangoDilby/32x32/next.png</file>
-        <file>icons/TangoDilby/32x32/previous.png</file>
+        <file>icons/TangoDilby/16x16/application-exit.png</file>
+        <file>icons/TangoDilby/16x16/go-next.png</file>
+        <file>icons/TangoDilby/16x16/go-previous.png</file>
+        <file>icons/TangoDilby/32x32/application-exit.png</file>
+        <file>icons/TangoDilby/32x32/go-next.png</file>
+        <file>icons/TangoDilby/32x32/go-previous.png</file>
         <file>icons/TangoDilby/index.theme</file>
+        <file>icons/TangoDilby/16x16/dialog-information.png</file>
+        <file>icons/TangoDilby/32x32/dialog-information.png</file>
     </qresource>
 </RCC>
