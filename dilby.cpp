@@ -12,6 +12,7 @@
 #include "dilby.h"
 #include "ui_dilby.h"
 #include "downloader.h"
+#include "settingsdialog.h"
 
 Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings("Huulivoide", "Dilby")
 {
@@ -21,6 +22,7 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
     QIcon::setThemeName("TangoDilby");
 
   ui->setupUi(this);
+  initSettings();
 
   baseDir = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0) + "/";
 
@@ -37,12 +39,10 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   QMovie *loader = new QMovie(":/icons/loader.gif", QByteArray(), ui->loaderLabel);
   ui->loaderLabel->hide();
   ui->loaderLabel->setMovie(loader);
+  scaleLoader();
 
   ui->comicDate->setMaximumDate(QDate::currentDate());
-  if (settings.contains("currentDate"))
-    ui->comicDate->setDate(settings.value("currentDate").toDate());
-  else
-    ui->comicDate->setDate(QDate::currentDate());
+  ui->comicDate->setDate(settings.value("currentDate").toDate());
 
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(save()));
 }
@@ -55,7 +55,7 @@ Dilby::~Dilby()
 QString Dilby::getComic(const QDate &date)
 {
   QString dString(date.toString("yyyy-MM-dd"));
-  QString fileName = baseDir + dString + ".gif";
+  QString fileName = baseDir + dString + prefix() + ".gif";
 
   if (QFile::exists(fileName))
     return fileName;
@@ -75,7 +75,7 @@ QString Dilby::getComic(const QDate &date)
   QString data(html.readAll());
   html.remove();
 
-  QRegExp re("(\\/[^\\s]*\\.zoom\\.gif)");
+  QRegExp re(regexString());
   if (re.indexIn(data) < 0)
     return "";
 
@@ -172,5 +172,53 @@ void Dilby::on_action_About_triggered()
 
 void Dilby::on_actionAbout_QT_triggered()
 {
-    QMessageBox::aboutQt(this);
+  QMessageBox::aboutQt(this);
+}
+
+void Dilby::on_action_Settings_triggered()
+{
+  bool HG = useHG();
+  SettingsDialog sDialog(settings, this);
+  sDialog.exec();
+
+  if (HG != useHG())
+    scaleLoader();
+}
+
+void Dilby::initSettings()
+{
+  if (!settings.contains("currentDate"))
+    settings.setValue("currentDate", QDate::currentDate());
+
+  if (!settings.contains("useHG"))
+    settings.setValue("useHG", true);
+}
+
+bool Dilby::useHG()
+{
+  return settings.value("useHG").toBool();
+}
+
+QString Dilby::regexString()
+{
+  if (useHG())
+    return "(\\/[^\\s]*\\.zoom\\.gif)";
+
+  return "(\\/[^\\s]*\\.print\\.gif)";
+}
+
+QString Dilby::prefix()
+{
+  if (useHG())
+    return ".HG";
+
+  return ".LOW";
+}
+
+void Dilby::scaleLoader()
+{
+  if (useHG())
+    ui->loaderLabel->movie()->setScaledSize(QSize(256, 256));
+  else
+    ui->loaderLabel->movie()->setScaledSize(QSize(128, 128));
 }

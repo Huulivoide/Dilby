@@ -19,7 +19,7 @@ SOURCES += main.cpp\
 
 HEADERS  += dilby.h \
             downloader.h \
-    settingsdialog.h
+            settingsdialog.h
 
 FORMS    += dilby.ui \
             settingsdialog.ui
