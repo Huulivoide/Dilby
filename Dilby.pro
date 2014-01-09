@@ -14,12 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
            dilby.cpp \
-           downloader.cpp
+           downloader.cpp \
+           settingsdialog.cpp
 
 HEADERS  += dilby.h \
-            downloader.h
+            downloader.h \
+    settingsdialog.h
 
-FORMS    += dilby.ui
+FORMS    += dilby.ui \
+            settingsdialog.ui
 
 RESOURCES += res/Icons.qrc
 

@@ -35,6 +35,8 @@ class Dilby : public QMainWindow
 
     void on_actionAbout_QT_triggered();
 
+    void on_action_Settings_triggered();
+
   private:
     Ui::Dilby *ui;
     QSettings settings;
@@ -44,7 +46,12 @@ class Dilby : public QMainWindow
     QGraphicsScene comic;
     QGraphicsPixmapItem pixmap;
 
+    bool useHG();
+    QString regexString(); // Get a correct regexp string to scrape the comic
+    QString prefix(); // Return correct filename prefix for HG/LOW images
+    void scaleLoader(); // Scale down the loader gif if using low guality images.
     QString getComic(const QDate &date);
+    void initSettings(); // Sets currentdate and HG=true if unset in settings file
 };
 
 #endif // DILBY_H
