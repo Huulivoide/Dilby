@@ -17,7 +17,7 @@
 Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings("Huulivoide", "Dilby")
 {
   // Set the icon theme if needed, before the gui is constructed,
-  // so that icons can be loaded
+  // so that icons can be loaded on Windows and OSX too
   if (QIcon::themeName().isEmpty())
     QIcon::setThemeName("TangoDilby");
 
@@ -146,7 +146,7 @@ void Dilby::on_comicDate_dateChanged(const QDate &date)
 
 void Dilby::on_buttonPrevious_clicked()
 {
-  QDate current = ui->comicDate->date();
+  QDate current = ui->comicDate->date(); // Check if we would go beond the 1st dilbert
   if (current.addDays(-1) >= ui->comicDate->minimumDate())
   {
     QDate d = ui->comicDate->date();
@@ -156,7 +156,7 @@ void Dilby::on_buttonPrevious_clicked()
 
 void Dilby::on_buttonNext_clicked()
 {
-  QDate current = ui->comicDate->date();
+  QDate current = ui->comicDate->date(); // We cannot go into future
   if (current.addDays(1) <= ui->comicDate->maximumDate())
   {
     QDate d = ui->comicDate->date();
