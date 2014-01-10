@@ -20,6 +20,8 @@ class Dilby : public QMainWindow
     explicit Dilby(QWidget *parent = 0);
     ~Dilby();
 
+    const QString & cacheDir() const { return baseDir; };
+
   private slots:
     void on_action_Quit_triggered();
     void on_comicDate_dateChanged(const QDate &date);

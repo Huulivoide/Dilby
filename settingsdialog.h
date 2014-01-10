@@ -17,9 +17,16 @@ class SettingsDialog : public QDialog
     explicit SettingsDialog(QSettings &s, QWidget *parent = 0);
     ~SettingsDialog();
 
+  signals:
+    void cacheSizeChanged();
+
   private slots:
+    void setCacheSize();
+
     void on_buttonOK_clicked();
     void on_buttonCancel_clicked();
+
+    void on_clearCacheButton_clicked();
 
   private:
     Ui::SettingsDialog *ui;
