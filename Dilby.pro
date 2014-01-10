@@ -8,8 +8,10 @@ QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
 TARGET = Dilby
 TEMPLATE = app
+VERSION = 0.1.0
 
 
 SOURCES += main.cpp\
