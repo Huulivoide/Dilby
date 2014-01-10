@@ -59,5 +59,7 @@ void Downloader::downloadProgress(qint64 recieved, qint64 total)
   if (total > 0)
     percentage = (double)recieved / (double)total * 100.0;
 
-  qDebug() << QString("%1%: %2 bytes of %3 bytes transferred").arg(percentage, 3, 'f', 0).arg(recieved, 6).arg(total, 6);
+  qDebug() << tr("%1%: %2 bytes of %3 bytes transferred").arg(percentage, 3, 'f', 0)
+              .arg(recieved, 6)
+              .arg(total, 6);
 }

@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dilby</string>
+   <string notr="true">Dilby</string>
   </property>
   <property name="windowIcon">
    <iconset resource="res/Icons.qrc">

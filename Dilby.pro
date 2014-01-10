@@ -24,6 +24,11 @@ HEADERS  += dilby.h \
 FORMS    += dilby.ui \
             settingsdialog.ui
 
-RESOURCES += res/Icons.qrc
+RESOURCES += res/Icons.qrc \
+             i18n/Translations.qrc
+
+TRANSLATIONS = i18n/fi_FI.ts
 
 RC_FILE = res/Dilby.rc
+
+OTHER_FILES += LICENSE
