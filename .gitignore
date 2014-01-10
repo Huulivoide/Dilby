@@ -14,3 +14,5 @@
 
 # Qt files
 *.qm
+*.autosave
+*.user
