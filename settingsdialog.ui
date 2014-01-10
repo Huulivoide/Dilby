@@ -7,38 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>180</height>
+    <height>136</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">Settings</string>
+   <string>Settings</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="labelSettings">
-     <property name="font">
-      <font>
-       <pointsize>13</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-       <underline>false</underline>
-      </font>
-     </property>
-     <property name="toolTipDuration">
-      <number>-1</number>
-     </property>
-     <property name="text">
-      <string>Dilby settings:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item>
     <widget class="QCheckBox" name="checkUseHG">
      <property name="text">
