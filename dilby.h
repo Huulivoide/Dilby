@@ -49,7 +49,6 @@ class Dilby : public QMainWindow
     bool useHG();
     QString regexString(); // Get a correct regexp string to scrape the comic
     QString prefix(); // Return correct filename prefix for HG/LOW images
-    void scaleLoader(); // Scale down the loader gif if using low guality images.
     QString getComic(const QDate &date);
     void initSettings(); // Sets currentdate and HG=true if unset in settings file
 };

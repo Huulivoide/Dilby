@@ -39,7 +39,6 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   QMovie *loader = new QMovie(":/icons/loader.gif", QByteArray(), ui->loaderLabel);
   ui->loaderLabel->hide();
   ui->loaderLabel->setMovie(loader);
-  scaleLoader();
 
   ui->comicDate->setMaximumDate(QDate::currentDate());
   ui->comicDate->setDate(settings.value("currentDate").toDate());
@@ -177,12 +176,8 @@ void Dilby::on_actionAbout_QT_triggered()
 
 void Dilby::on_action_Settings_triggered()
 {
-  bool HG = useHG();
   SettingsDialog sDialog(settings, this);
   sDialog.exec();
-
-  if (HG != useHG())
-    scaleLoader();
 }
 
 void Dilby::initSettings()
@@ -213,12 +208,4 @@ QString Dilby::prefix()
     return ".HG";
 
   return ".LOW";
-}
-
-void Dilby::scaleLoader()
-{
-  if (useHG())
-    ui->loaderLabel->movie()->setScaledSize(QSize(256, 256));
-  else
-    ui->loaderLabel->movie()->setScaledSize(QSize(128, 128));
 }
