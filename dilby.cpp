@@ -29,7 +29,7 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   QDir bd;
   if (!bd.mkpath(baseDir))
   {
-    qDebug() << "Cannot create the data dir: " + baseDir;
+    QMessageBox::critical(this, tr("Error"), tr("Cannot create the data dir: %1").arg(baseDir));
     qApp->quit();
   }
 
@@ -67,7 +67,7 @@ QString Dilby::getComic(const QDate &date)
   QFile html(dl.fileName());
   if (!html.open(QIODevice::ReadOnly))
   {
-    qDebug() << tr("Cannot open the html file.");
+    QMessageBox::critical(this, tr("Error"), tr("Cannot open the html file for scraping."));
     return "";
   }
 
@@ -75,12 +75,14 @@ QString Dilby::getComic(const QDate &date)
   html.remove();
 
   QRegExp re(regexString());
-  if (re.indexIn(data) < 0)
-    return "";
-
+  re.indexIn(data);
   QString imgUrl = re.cap(0);
+
   if (imgUrl.isEmpty())
+  {
+    QMessageBox::critical(this, tr("Error"), tr("No image url could be scrapped."));
     return "";
+  }
 
   dl.setUrl("http://dilbert.com" + imgUrl);
   dl.setFile(fileName);
@@ -89,7 +91,8 @@ QString Dilby::getComic(const QDate &date)
   QPixmap test;
   if (!test.load(fileName))
   {
-    qDebug() << tr("Error loading the image file: %1").arg(fileName);
+    QMessageBox::critical(this, tr("Error"), tr("Error loading the image file: %1\nPlease try again.").arg(fileName));
+    QFile(fileName).remove(); // Make sure we don't leave invaöid file in the cache
     return "";
   }
 
