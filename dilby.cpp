@@ -5,7 +5,6 @@
 
 #include <QMessageBox>
 
-#include <QGraphicsPixmapItem>
 #include <QMovie>
 #include <QIcon>
 
@@ -32,9 +31,6 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
     QMessageBox::critical(this, tr("Error"), tr("Cannot create the data dir: %1").arg(baseDir));
     qApp->quit();
   }
-
-  ui->comicView->setScene(&comic);
-  comic.addItem(&pixmap);
 
   QMovie *loader = new QMovie(":/icons/loader.gif", QByteArray(), ui->loaderLabel);
   ui->loaderLabel->hide();
@@ -117,7 +113,7 @@ void Dilby::setComic(const QDate &date)
     currentDate = date;
 
     QPixmap imgData(fileName);
-    pixmap.setPixmap(imgData);
+    ui->comicView->setPixmap(imgData);
 
     ui->comicView->setFixedHeight(imgData.height());
     ui->comicView->setFixedWidth(imgData.width());

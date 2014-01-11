@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QDate>
 #include <QSettings>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
 
 namespace Ui
 {
@@ -44,9 +42,6 @@ class Dilby : public QMainWindow
     QSettings settings;
     QString baseDir; // $HOME/.cache/Dilby. For caching the comics.
     QDate currentDate; // Currently displayd comic, so we can rollback to it if loading fails
-
-    QGraphicsScene comic;
-    QGraphicsPixmapItem pixmap;
 
     bool useHG();
     QString regexString(); // Get a correct regexp string to scrape the comic
