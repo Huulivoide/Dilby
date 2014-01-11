@@ -78,11 +78,16 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>&amp;Previous</string>
         </property>
         <property name="icon">
-         <iconset theme="go-previous"/>
+         <iconset theme="go-previous">
+          <normaloff/>
+         </iconset>
         </property>
        </widget>
       </item>
@@ -93,6 +98,9 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="wrapping">
          <bool>false</bool>
@@ -123,11 +131,16 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>&amp;Next</string>
         </property>
         <property name="icon">
-         <iconset theme="go-next"/>
+         <iconset theme="go-next">
+          <normaloff/>
+         </iconset>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonIconOnly</enum>
@@ -167,6 +180,9 @@
     </item>
     <item>
      <widget class="QLabel" name="comicView">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
        <string notr="true">NO IMAGE</string>
       </property>
@@ -203,15 +219,22 @@
   </widget>
   <action name="action_Quit">
    <property name="icon">
-    <iconset theme="application-exit"/>
+    <iconset theme="application-exit">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="action_About">
    <property name="icon">
-    <iconset theme="dialog-information"/>
+    <iconset theme="dialog-information">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -225,6 +248,9 @@
   <action name="action_Settings">
    <property name="text">
     <string>&amp;Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

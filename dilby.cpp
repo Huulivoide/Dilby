@@ -2,6 +2,7 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QRegExp>
+#include <QShortcut>
 
 #include <QMessageBox>
 
@@ -38,6 +39,16 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
 
   ui->comicDate->setMaximumDate(QDate::currentDate());
   ui->comicDate->setDate(settings.value("currentDate").toDate());
+
+  QShortcut *previousCtrl = new QShortcut(QKeySequence("Ctrl+P"), this);
+  QShortcut *previous = new QShortcut(QKeySequence("J"), this);
+  QShortcut *nextCtrl = new QShortcut(QKeySequence("Ctrl+N"), this);
+  QShortcut *next = new QShortcut(QKeySequence("K"), this);
+
+  connect(previousCtrl, SIGNAL(activated()), this, SLOT(on_buttonPrevious_clicked()));
+  connect(previous, SIGNAL(activated()), this, SLOT(on_buttonPrevious_clicked()));
+  connect(nextCtrl, SIGNAL(activated()), this, SLOT(on_buttonNext_clicked()));
+  connect(next, SIGNAL(activated()), this, SLOT(on_buttonNext_clicked()));
 
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(save()));
 }
