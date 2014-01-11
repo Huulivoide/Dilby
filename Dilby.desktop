@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Dilby
+GenericName=Dilbert Viewer
+Comment=Read your daily Dilbert strip
+Comment[fi]=Lue päivittäinen Dilbert strippisi
+Exec=Dilby
+Icon=/usr/share/pixmaps/Dilby.png
+Type=Application
+Categories=Network;Graphics
