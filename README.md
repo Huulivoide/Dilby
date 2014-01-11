@@ -7,6 +7,9 @@ resolution variants of the strips. Strips are cached on disk
 for rereading if user so wishes.  
 
 
+## Downloads
+* Windows: http://goo.gl/YGXtjt
+
 ## Depencies
 needed qt5 modules:
 
@@ -25,6 +28,7 @@ needed qt5 modules:
 
 * _Ctrl+q_: quit
 * _Ctrl+s_: settings
+
 
 ## Screenshot
 ![Dilby](http://people.uta.fi/~jesse.jaara/Images/Dilby.png)
