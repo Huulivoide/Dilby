@@ -1,8 +1,7 @@
 #include <QSettings>
 #include <QDir>
 #include <QList>
-
-#include <cmath>
+#include <QtMath>
 
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
@@ -41,16 +40,16 @@ void SettingsDialog::setCacheSize()
   QDir cache(dynamic_cast<Dilby *>(parent())->cacheDir());
   QFileInfoList files = cache.entryInfoList();
 
-  double size = 0;
+  qreal size = 0;
   foreach (QFileInfo fi, files)
   {
     size += fi.size();
   }
 
   QString prefix;
-  if (size / pow(1024, 2) >= 1)
+  if (size / qPow(1024, 2) >= 1)
   {
-    size /= pow(1024, 2);
+    size /= qPow(1024, 2);
     prefix = tr("MB");
   }
   else
