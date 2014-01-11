@@ -3,8 +3,8 @@ IDI_ICON1   ICON    DISCARDABLE "icons/Dilby.ico"
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION     0,1,0
-PRODUCTVERSION  0,1,0
+FILEVERSION     0,1,1,0
+PRODUCTVERSION  0,1,1,0
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
@@ -12,12 +12,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName",        "Jesse Jaara"
             VALUE "FileDescription",    "Dilbert comic viewer"
-            VALUE "FileVersion",        "0.1.0"
+            VALUE "FileVersion",        "0.1.1.0"
             VALUE "InternalName",       "Dilbert comic viewer"
             VALUE "LegalCopyright",     "Copyright © 2014 Jesse Jaara"
             VALUE "OriginalFilename",   "Dilby.exe"
             VALUE "ProductName",        "Dilby"
-            VALUE "ProductVersion",     "0.1.0"
+            VALUE "ProductVersion",     "0.1.1.0"
         END
     END
 
