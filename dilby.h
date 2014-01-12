@@ -23,23 +23,20 @@ class Dilby : public QMainWindow
     const QString & getCacheDir() const { return cacheDir; };
 
   private slots:
-    void on_action_Quit_triggered();
+    void setComic(const QDate &date);
+    void save();
+    void showError(QString msg);
+
     void on_comicDate_dateChanged(const QDate &date);
 
     void on_buttonPrevious_clicked();
     void on_buttonNext_clicked();
 
-    void setComic(const QDate &date);
-
-    void save();
-
+    void on_action_Quit_triggered();
     void on_action_About_triggered();
-
     void on_actionAbout_QT_triggered();
-
     void on_action_Settings_triggered();
 
-    void showError(QString msg);
 
   private:
     Ui::Dilby *ui;
@@ -48,8 +45,8 @@ class Dilby : public QMainWindow
     QDate currentDate; // Currently displayd comic, so we can rollback to it if loading fails
     Scraper *scraper;
 
-    bool useHG();
     void initSettings(); // Sets currentdate and HG=true if unset in settings file
+    bool useHG();
 };
 
 #endif // DILBY_H

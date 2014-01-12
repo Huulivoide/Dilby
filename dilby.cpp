@@ -101,15 +101,12 @@ void Dilby::showError(QString msg)
   QMessageBox::critical(this, tr("Error"), msg);
 }
 
-void Dilby::on_action_Quit_triggered()
-{
-  qApp->quit();
-}
 
 void Dilby::on_comicDate_dateChanged(const QDate &date)
 {
   setComic(date);
 }
+
 
 void Dilby::on_buttonPrevious_clicked()
 {
@@ -119,6 +116,12 @@ void Dilby::on_buttonPrevious_clicked()
 void Dilby::on_buttonNext_clicked()
 {
   ui->comicDate->setDate(scraper->next(currentDate));
+}
+
+
+void Dilby::on_action_Quit_triggered()
+{
+  qApp->quit();
 }
 
 void Dilby::on_action_About_triggered()
@@ -139,6 +142,7 @@ void Dilby::on_action_Settings_triggered()
   SettingsDialog sDialog(settings, this);
   sDialog.exec();
 }
+
 
 void Dilby::initSettings()
 {
