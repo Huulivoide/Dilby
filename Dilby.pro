@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network widgets
+QT       += core gui network  widgets
 
 TARGET = Dilby
 TEMPLATE = app
@@ -14,11 +14,14 @@ VERSION = 0.1.0
 SOURCES += main.cpp\
            dilby.cpp \
            downloader.cpp \
-           settingsdialog.cpp
+           settingsdialog.cpp \
+            dilbert.cpp
 
 HEADERS  += dilby.h \
             downloader.h \
-            settingsdialog.h
+            settingsdialog.h \
+            scraper.h \
+            dilbert.h
 
 FORMS    += dilby.ui \
             settingsdialog.ui

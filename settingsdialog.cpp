@@ -37,7 +37,7 @@ void SettingsDialog::useHG(bool HG)
 
 void SettingsDialog::setCacheSize()
 {
-  QDir cache(dynamic_cast<Dilby *>(parent())->cacheDir());
+  QDir cache(dynamic_cast<Dilby *>(parent())->getCacheDir());
   QFileInfoList files = cache.entryInfoList();
 
   qreal size = 0;
@@ -74,7 +74,7 @@ void SettingsDialog::on_buttonCancel_clicked()
 
 void SettingsDialog::on_clearCacheButton_clicked()
 {
-    QDir cache(dynamic_cast<Dilby *>(parent())->cacheDir());
+    QDir cache(dynamic_cast<Dilby *>(parent())->getCacheDir());
 
     cache.removeRecursively();
     cache.mkpath(cache.path());

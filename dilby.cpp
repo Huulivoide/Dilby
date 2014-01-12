@@ -1,9 +1,6 @@
 #include <QDir>
 #include <QStandardPaths>
-#include <QDebug>
-#include <QRegExp>
 #include <QShortcut>
-
 #include <QMessageBox>
 
 #include <QMovie>
@@ -11,8 +8,8 @@
 
 #include "dilby.h"
 #include "ui_dilby.h"
-#include "downloader.h"
 #include "settingsdialog.h"
+#include "dilbert.h"
 
 Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings("Huulivoide", "Dilby")
 {
@@ -24,12 +21,14 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   ui->setupUi(this);
   initSettings();
 
-  baseDir = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0) + "/";
+  cacheDir = QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0) + "/";
+
+  scraper = new Dilbert(cacheDir, this);
 
   QDir bd;
-  if (!bd.mkpath(baseDir))
+  if (!bd.mkpath(cacheDir))
   {
-    QMessageBox::critical(this, tr("Error"), tr("Cannot create the data dir: %1").arg(baseDir));
+    QMessageBox::critical(this, tr("Error"), tr("Cannot create the data dir: %1").arg(cacheDir));
     qApp->quit();
   }
 
@@ -37,7 +36,7 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   ui->loaderLabel->hide();
   ui->loaderLabel->setMovie(loader);
 
-  ui->comicDate->setMaximumDate(QDate::currentDate());
+  ui->comicDate->setMaximumDate(scraper->maxDate());
   ui->comicDate->setDate(settings.value("currentDate").toDate());
 
   QShortcut *previousCtrl = new QShortcut(QKeySequence("Ctrl+P"), this);
@@ -50,6 +49,7 @@ Dilby::Dilby(QWidget *parent) : QMainWindow(parent), ui(new Ui::Dilby), settings
   connect(nextCtrl, SIGNAL(activated()), this, SLOT(on_buttonNext_clicked()));
   connect(next, SIGNAL(activated()), this, SLOT(on_buttonNext_clicked()));
 
+  connect(scraper, SIGNAL(error(QString)), this, SLOT(showError(QString)));
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(save()));
 }
 
@@ -58,87 +58,47 @@ Dilby::~Dilby()
   delete ui;
 }
 
-QString Dilby::getComic(const QDate &date)
-{
-  QString dString(date.toString("yyyy-MM-dd"));
-  QString fileName = baseDir + dString + prefix() + ".gif";
-
-  if (QFile::exists(fileName))
-    return fileName;
-
-  Downloader dl;
-  dl.setFile(QDir::tempPath() + "/Dilbert-" + dString + ".html");
-  dl.setUrl("http://dilbert.com/strips/comic/" + dString);
-  dl.download();
-
-  QFile html(dl.fileName());
-  if (!html.open(QIODevice::ReadOnly))
-  {
-    QMessageBox::critical(this, tr("Error"), tr("Cannot open the html file for scraping."));
-    return "";
-  }
-
-  QString data(html.readAll());
-  html.remove();
-
-  QRegExp re(regexString());
-  re.indexIn(data);
-  QString imgUrl = re.cap(0);
-
-  if (imgUrl.isEmpty())
-  {
-    QMessageBox::critical(this, tr("Error"), tr("No image url could be scrapped."));
-    return "";
-  }
-
-  dl.setUrl("http://dilbert.com" + imgUrl);
-  dl.setFile(fileName);
-  dl.download();
-
-  QPixmap test;
-  if (!test.load(fileName))
-  {
-    QMessageBox::critical(this, tr("Error"), tr("Error loading the image file: %1\nPlease try again.").arg(fileName));
-    QFile(fileName).remove(); // Make sure we don't leave invaöid file in the cache
-    return "";
-  }
-
-  return fileName;
-}
-
 void Dilby::setComic(const QDate &date)
 {
-  ui->comicView->hide();
-  ui->loaderLabel->show();
-  ui->loaderLabel->movie()->start();
-
-  QString fileName = getComic(date);
-
-  ui->loaderLabel->movie()->stop();
-  ui->loaderLabel->hide();
-  ui->comicView->show();
-
-
-  if (!fileName.isEmpty())
+  if (date != currentDate)
   {
-    currentDate = date;
+    ui->comicView->hide();
+    ui->loaderLabel->show();
+    ui->loaderLabel->movie()->start();
 
-    QPixmap imgData(fileName);
-    ui->comicView->setPixmap(imgData);
+    QString fileName = scraper->getComic(date, useHG());
 
-    ui->comicView->setFixedHeight(imgData.height());
-    ui->comicView->setFixedWidth(imgData.width());
-    ui->centralWidget->updateGeometry();
-    QSize size = this->sizeHint();
-    this->setFixedSize(size);
+    ui->loaderLabel->movie()->stop();
+    ui->loaderLabel->hide();
+    ui->comicView->show();
+
+
+    if (!fileName.isEmpty())
+    {
+      currentDate = date;
+
+      QPixmap imgData(fileName);
+      ui->comicView->setPixmap(imgData);
+
+      ui->comicView->setFixedHeight(imgData.height());
+      ui->comicView->setFixedWidth(imgData.width());
+      ui->centralWidget->updateGeometry();
+      QSize size = this->sizeHint();
+      this->setFixedSize(size);
+    }
+    else // It triggers a new signal to rerun this function but.......
+      ui->comicDate->setDate(currentDate);
   }
-  else // It triggers a new signal to rerun this function but.......
-    ui->comicDate->setDate(currentDate);
 }
 
 void Dilby::save()
 {
   settings.setValue("currentDate", currentDate);
+}
+
+void Dilby::showError(QString msg)
+{
+  QMessageBox::critical(this, tr("Error"), msg);
 }
 
 void Dilby::on_action_Quit_triggered()
@@ -153,22 +113,12 @@ void Dilby::on_comicDate_dateChanged(const QDate &date)
 
 void Dilby::on_buttonPrevious_clicked()
 {
-  QDate current = ui->comicDate->date(); // Check if we would go beond the 1st dilbert
-  if (current.addDays(-1) >= ui->comicDate->minimumDate())
-  {
-    QDate d = ui->comicDate->date();
-    ui->comicDate->setDate(d.addDays(-1));
-  }
+  ui->comicDate->setDate(scraper->previous(currentDate));
 }
 
 void Dilby::on_buttonNext_clicked()
 {
-  QDate current = ui->comicDate->date(); // We cannot go into future
-  if (current.addDays(1) <= ui->comicDate->maximumDate())
-  {
-    QDate d = ui->comicDate->date();
-    ui->comicDate->setDate(d.addDays(1));
-  }
+  ui->comicDate->setDate(scraper->next(currentDate));
 }
 
 void Dilby::on_action_About_triggered()
@@ -202,20 +152,4 @@ void Dilby::initSettings()
 bool Dilby::useHG()
 {
   return settings.value("useHG").toBool();
-}
-
-QString Dilby::regexString()
-{
-  if (useHG())
-    return "(\\/[^\\s]*\\.zoom\\.gif)";
-
-  return "(\\/[^\\s]*\\.print\\.gif)";
-}
-
-QString Dilby::prefix()
-{
-  if (useHG())
-    return ".HG";
-
-  return ".LOW";
 }

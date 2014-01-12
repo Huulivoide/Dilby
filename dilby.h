@@ -5,6 +5,8 @@
 #include <QDate>
 #include <QSettings>
 
+#include "scraper.h"
+
 namespace Ui
 {
   class Dilby;
@@ -18,7 +20,7 @@ class Dilby : public QMainWindow
     explicit Dilby(QWidget *parent = 0);
     ~Dilby();
 
-    const QString & cacheDir() const { return baseDir; };
+    const QString & getCacheDir() const { return cacheDir; };
 
   private slots:
     void on_action_Quit_triggered();
@@ -37,16 +39,16 @@ class Dilby : public QMainWindow
 
     void on_action_Settings_triggered();
 
+    void showError(QString msg);
+
   private:
     Ui::Dilby *ui;
     QSettings settings;
-    QString baseDir; // $HOME/.cache/Dilby. For caching the comics.
+    QString cacheDir; // $HOME/.cache/Dilby. For caching the comics.
     QDate currentDate; // Currently displayd comic, so we can rollback to it if loading fails
+    Scraper *scraper;
 
     bool useHG();
-    QString regexString(); // Get a correct regexp string to scrape the comic
-    QString prefix(); // Return correct filename prefix for HG/LOW images
-    QString getComic(const QDate &date);
     void initSettings(); // Sets currentdate and HG=true if unset in settings file
 };
 
